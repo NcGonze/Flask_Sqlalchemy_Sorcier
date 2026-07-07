@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey, String, Integer, DateTime
-from .database import Base
+from .base import Base
 from datetime import datetime
-from .professeur import Professeur
+# from .professeur import Professeur
 
 class Cour(Base):
     __tablename__ = "cours"
@@ -11,8 +11,8 @@ class Cour(Base):
     intitule: Mapped[str] = mapped_column(String(50), nullable=False)
     niveau_requis: Mapped[str] = mapped_column(String(50))
     capacite_max: Mapped[int] = mapped_column(Integer)
-    annee: Mapped[datetime] = mapped_column(DateTime, default=datetime.now.year)
+    annee: Mapped[int] = mapped_column(Integer, default=datetime.now().year)
     professeur_id: Mapped[int] = mapped_column(Integer, ForeignKey("professeurs.professeur_id"), nullable=False)
 
-    professeur: Mapped["Professeur"] = relationship(back_populates="cours")
+    professeur: Mapped["Professeur"] = relationship( back_populates="cours") # type: ignore
     

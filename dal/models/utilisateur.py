@@ -1,20 +1,15 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, String, Integer, Email
-from .database import Base
-from dal.models.eleve import Eleve
-from dal.models.professeur import Professeur
+from sqlalchemy import String, Integer
+from .base import Base
 
 
 class Utilisateur(Base):
     __tablename__ = "utilisateurs"
 
     utilisateur_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    email: Mapped[str] = mapped_column(Email, nullable=False)
-    mot_de_passe: Mapped[str] = mapped_column(String(20), nullable=False)
-    role: Mapped[str] = mapped_column(String(20), default="eleve")
+    email: Mapped[str] = mapped_column(String(50), nullable=False)
+    mot_de_passe: Mapped[str] = mapped_column(String(50), nullable=False)
+    role: Mapped[str] = mapped_column(String(50))
 
-    eleve_id: Mapped[int] = mapped_column(Integer, ForeignKey("eleves.eleve_id"), nullable=True)
-    professeur_id: Mapped[int] = mapped_column(Integer, ForeignKey("professeurs.professeur_id"), nullable=True)
-
-    eleve: Mapped["Eleve"] = relationship("Eleve", uselist=False)
-    professeur: Mapped["Professeur"] = relationship("Professeur", uselist=False)
+    eleve: Mapped["Eleve"] = relationship(back_populates="utilisateur_e") # type: ignore
+    professeur: Mapped["Professeur"] = relationship(back_populates="utilisateur_p") # type: ignore

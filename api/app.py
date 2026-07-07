@@ -1,14 +1,16 @@
 import os
 from dotenv import load_dotenv
 from api.routes.task_routes import task_bp
+from api.routes.maison_routes import maisons_bp
 from flask import Flask, jsonify
 from dal.database import try_coonection, init_db, seed_data
 
 load_dotenv()
 
 app = Flask(__name__)
-app.json.sort_keys = False
+app.json.sort_keys = False # type: ignore
 app.register_blueprint(task_bp)
+app.register_blueprint(maisons_bp)
 
 def startup():
     if try_coonection():
