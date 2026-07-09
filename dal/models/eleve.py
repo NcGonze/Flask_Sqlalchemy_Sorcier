@@ -15,4 +15,6 @@ class Eleve(Base):
 
     maison: Mapped["Maison"] = relationship(back_populates="eleves") # type: ignore
     utilisateur_e: Mapped['Utilisateur'] = relationship(back_populates = "eleve") # type: ignore
+    cours: Mapped['Cour'] = relationship(back_populates="cours", secondary="cours_eleves") # type: ignore
+    examens_res: Mapped[list["Examen"]] = relationship(back_populates="eleves_res", secondary="examens_eleves") # type: ignore
     

@@ -15,4 +15,6 @@ class Cour(Base):
     professeur_id: Mapped[int] = mapped_column(Integer, ForeignKey("professeurs.professeur_id"), nullable=False)
 
     professeur: Mapped["Professeur"] = relationship( back_populates="cours") # type: ignore
+    eleves: Mapped["Eleve"] = relationship(back_populates="cours", secondary="cours_eleves") # type: ignore
+    examens: Mapped[list["Examen"]] = relationship(back_populates="cour_ex") # type: ignore
     

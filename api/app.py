@@ -4,7 +4,7 @@ from api.auth_helpers import InvalidUserHeaderError, MissingUserHeaderError
 from api.routes.auth_route import auth_bp
 from api.routes.task_routes import task_bp
 from api.routes.maison_routes import maisons_bp
-# HIGHLIGHT: import du blueprint des cours.
+
 from api.routes.cours_routes import cours_bp
 from api.routes.eleve_routes import eleves_bp
 from api.routes.professeur_routes import professeurs_bp
@@ -18,7 +18,7 @@ app.json.sort_keys = False # type: ignore
 app.register_blueprint(auth_bp)
 app.register_blueprint(task_bp)
 app.register_blueprint(maisons_bp)
-# HIGHLIGHT: activation des routes /api/cours.
+
 app.register_blueprint(cours_bp)
 app.register_blueprint(eleves_bp)
 app.register_blueprint(professeurs_bp)
