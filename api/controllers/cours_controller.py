@@ -32,6 +32,13 @@ class CoursController:
 
     def delete(self, cours_id: int):
         return self.repo.delete(cours_id)
+    
+    def add_student(self,cours_id,payload):
+        cap, nbre = self.repo.get_capacite(cours_id)
+        if nbre >= cap:
+            raise ValueError("Capacite max atteinte")
+        stud_id = payload.id
+        return self.repo.add_eleve(cours_id,stud_id)
 
     @staticmethod
     def _model_to_dict(model):

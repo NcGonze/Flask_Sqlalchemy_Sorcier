@@ -7,7 +7,6 @@ cours_bp = Blueprint("cours_bp", __name__, url_prefix="/api/cours")
 controller = CoursController()
 
 
-# HIGHLIGHT: route liste des cours.
 @cours_bp.route("", methods=["GET"], strict_slashes=False)
 def get_all_cours():
     try:
@@ -17,7 +16,6 @@ def get_all_cours():
         return jsonify({"error": str(e)}), 500
 
 
-# HIGHLIGHT: route detail d'un cours.
 @cours_bp.route("/<int:cours_id>", methods=["GET"])
 def get_cours(cours_id):
     try:
@@ -29,7 +27,6 @@ def get_cours(cours_id):
         return jsonify({"error": str(e)}), 500
 
 
-# HIGHLIGHT: route creation d'un cours.
 @cours_bp.route("", methods=["POST"], strict_slashes=False)
 def create_cours():
     try:
@@ -45,7 +42,6 @@ def create_cours():
         return jsonify({"error": str(e)}), 500
 
 
-# HIGHLIGHT: route modification d'un cours.
 @cours_bp.route("/<int:cours_id>", methods=["PUT"])
 def update_cours(cours_id):
     try:
@@ -63,7 +59,7 @@ def update_cours(cours_id):
         return jsonify({"error": str(e)}), 500
 
 
-# HIGHLIGHT: route suppression d'un cours.
+
 @cours_bp.route("/<int:cours_id>", methods=["DELETE"])
 def delete_cours(cours_id):
     try:
@@ -73,3 +69,18 @@ def delete_cours(cours_id):
         return jsonify({"message": "Cours deleted"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+@cours_bp.route("/sign/<int:cours_id>", methods=["PUT"])
+def eleve_cours(cours_id):
+    try:
+        payload = request.get_json(silent = True)
+        if not isinstance(payload, dict):
+            return jsonify({"error" : "JSON body required"}), 400
+        rep = controller.add_student(cours_id, payload)
+        if rep is None:
+            return jsonify({"error" : "cours not found"}), 404
+        return jsonify({"data": rep}), 200
+    except Exception as e:
+        return jsonify({"error" : str(e)}), 500
+    

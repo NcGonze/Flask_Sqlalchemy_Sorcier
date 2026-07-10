@@ -55,7 +55,6 @@ class MaisonRepository:
             "id": maison.maison_id,
             "nom": maison.nom,
             "fondateur": maison.fondateur,
-            # HIGHLIGHT: cle corrigee de "valeur" vers "valeurs".
             "valeurs": maison.valeurs,
             "eleves": [e.nom for e in maison.eleves],
         }

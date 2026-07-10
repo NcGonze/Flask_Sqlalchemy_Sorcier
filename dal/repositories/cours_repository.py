@@ -5,19 +5,19 @@ from dal.models.eleve import Eleve
 
 class CoursRepository:
 
-    # HIGHLIGHT: liste tous les cours.
+    
     def get_all(self):
         with get_db() as db:
             query = db.query(Cour).order_by(Cour.cours_id.asc()).all()
             return [self._serialize_cours(cours) for cours in query]
 
-    # HIGHLIGHT: recupere un cours par id.
+    
     def get_by_id(self, cours_id):
         with get_db() as db:
             cours = db.query(Cour).filter(Cour.cours_id == cours_id).first()
             return self._serialize_cours(cours) if cours else None
 
-    # HIGHLIGHT: cree un nouveau cours.
+    
     def create(self, data):
         with get_db() as db:
             cours = Cour(**data)
@@ -25,7 +25,6 @@ class CoursRepository:
             db.flush()
             return self._serialize_cours(cours)
 
-    # HIGHLIGHT: modifie un cours existant.
     def update(self, cours_id, data):
         with get_db() as db:
             cours = db.query(Cour).filter(Cour.cours_id == cours_id).first()
@@ -38,7 +37,6 @@ class CoursRepository:
             db.flush()
             return self._serialize_cours(cours)
 
-    # HIGHLIGHT: supprime un cours existant.
     def delete(self, cours_id):
         with get_db() as db:
             cours = db.query(Cour).filter(Cour.cours_id == cours_id).first()
@@ -59,15 +57,16 @@ class CoursRepository:
     def get_capacite(self,cour_id):
         with get_db() as db:
             cour = db.query(Cour).filter(Cour.cours_id == cour_id)
-            cap = cour.capacite_max
-            return cap
+            cap = cour.capacite_max # type: ignore
+            nbre = cour.eleves # type: ignore
+            return cap, nbre
         
     @staticmethod
     def _serialize_cours(cours):
         if cours is None:
             return None
 
-        # HIGHLIGHT: format JSON renvoye par l'API pour un cours.
+        
         return {
             "id": cours.cours_id,
             "intitule": cours.intitule,
